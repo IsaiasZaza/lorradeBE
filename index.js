@@ -8,17 +8,21 @@ app.use(express.json());
 app.use(cors());
 
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    secure: true, // Use true para 465 (SSL) ou false para 587 (TLS)
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-    tls: {
-      rejectUnauthorized: false, // Evita erro de certificado SSL
-    },
-  });
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: true, // Use true para 465 (SSL) ou false para 587 (TLS)
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false, // Evita erro de certificado SSL
+  },
+});
+
+app.get('/', async (req, res) => {
+  res.send({ 'api': 'online' })
+})
 
 app.post("/enviar-email", async (req, res) => {
   const { nome, email, whatsapp, mensagem } = req.body;
